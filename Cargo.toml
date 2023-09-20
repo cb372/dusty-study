@@ -1,5 +1,5 @@
 [package]
-name = "anagramorama-ui"
+name = "gram"
 version = "0.1.0"
 edition = "2021"
 

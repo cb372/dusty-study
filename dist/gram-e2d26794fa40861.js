@@ -714,7 +714,7 @@ async function __wbg_init(input) {
     if (wasm !== undefined) return wasm;
 
     if (typeof input === 'undefined') {
-        input = new URL('anagramorama-ui-bca0bb51ec52d66a_bg.wasm', import.meta.url);
+        input = new URL('gram-e2d26794fa40861_bg.wasm', import.meta.url);
     }
     const imports = __wbg_get_imports();
 
