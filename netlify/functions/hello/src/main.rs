@@ -12,11 +12,15 @@ async fn main() -> Result<(), Error> {
 
 pub(crate) async fn handler(req: Request) -> Result<impl IntoResponse, Error> {
     let path = req.raw_http_path();
+    let input = req.query_string_parameters_ref()
+        .and_then(|params| params.first("input"))
+        .unwrap_or_else(|| "")
+        .to_string();
 
     let resp = Response::builder()
         .status(StatusCode::OK)
         .header("Content-Type", "text/plain")
-        .body(Body::from(format!("Hello from '{}'", path)))
+        .body(Body::from(format!("Hello from '{}?input={}'", path, input)))
         .map_err(Box::new)?;
 
     Ok(resp)
