@@ -1,3 +1,5 @@
+mod database;
+
 use lambda_http::{run, service_fn, Error, IntoResponse, Request, RequestExt};
 use log::LevelFilter;
 use serde_json::json;
@@ -12,16 +14,15 @@ async fn main() -> Result<(), Error> {
 }
 
 pub(crate) async fn handler(req: Request) -> Result<impl IntoResponse, Error> {
-    let _input = req.query_string_parameters_ref()
+    let input = req.query_string_parameters_ref()
         .and_then(|params| params.first("input"))
         .unwrap_or_else(|| "")
         .to_string();
 
-    // TODO convert input to key
-    // TODO lookup in hashmap
+    let results = database::find(input);
     // TODO filter out input from results
 
-    let resp = json!(vec!["CAT", "ACT"]);
+    let resp = json!(results);
 
     Ok(resp)
 }
