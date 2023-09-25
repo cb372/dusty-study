@@ -5,6 +5,7 @@ use yew::prelude::*;
 mod components;
 
 use components::scrambler::Scrambler;
+use components::solver::Solver;
 
 #[function_component]
 pub fn App() -> Html {
@@ -24,6 +25,7 @@ pub fn App() -> Html {
         <div>
             <input type="text" {oninput} value={(*input_value_handle).clone()} />
             <p><Scrambler input={(*input_value_handle).clone()}/></p>
+            <p><Solver input={(*input_value_handle).clone()}/></p>
         </div>
     }
 }

@@ -416,6 +416,7 @@ dependencies = [
  "http",
  "lambda_http",
  "log",
+ "serde_json",
  "simple_logger",
  "tokio",
 ]

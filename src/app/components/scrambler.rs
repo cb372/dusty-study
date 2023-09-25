@@ -59,7 +59,6 @@ pub fn scrambler(prop: &ScramblerProp) -> Html {
     html! {
         <div>
             <p>{"Scramble!"}</p>
-            <p>{prop.input.clone()}</p>
             <Circle scramble={scramble.clone()} />
             <p><button onclick={onclick}>{"Re-scramble"}</button></p>
         </div>
