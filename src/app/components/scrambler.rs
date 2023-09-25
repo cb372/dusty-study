@@ -1,8 +1,6 @@
-use gloo_console::log;
 use rand::seq::SliceRandom;
 use rand::thread_rng;
 use std::collections::HashSet;
-use wasm_bindgen::JsValue;
 use yew::prelude::*;
 
 fn str_shuffled(s: String) -> Vec<char> {
@@ -22,7 +20,6 @@ pub struct Scramble {
 impl Scramble {
 
     pub fn new(input: String) -> Scramble {
-        log!("Scramble::new", input.clone());
         let vowels = HashSet::from(['A', 'E', 'I', 'O', 'U']); // TODO make this static
         let mut shuffled = str_shuffled(input);
         let first_vowel_index = shuffled.iter().position(|x| vowels.contains(x));
@@ -72,7 +69,6 @@ pub struct CircleProp {
 
 #[function_component(Circle)]
 pub fn circle(CircleProp { scramble }: &CircleProp) -> Html {
-    log!("circle", JsValue::from(scramble.circle.clone().into_iter().collect::<String>()));
     html! {
         <div>
             <p>{scramble.circle.clone().into_iter().collect::<String>()}</p>
