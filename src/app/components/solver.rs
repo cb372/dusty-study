@@ -14,6 +14,7 @@ pub fn solver(prop: &SolverProp) -> Html {
     log!("Solver URL", url.clone());
 
     {
+        let input = prop.input.clone();
         let results = results.clone();
         use_effect_with_deps(move |_| {
             wasm_bindgen_futures::spawn_local(async move {
@@ -27,7 +28,7 @@ pub fn solver(prop: &SolverProp) -> Html {
                 results.set(fetched_results);
             });
             || ()
-        }, ());
+        }, input);
     }
 
     let list_items = results.clone().iter().map(|result| html! {<li>{result}</li>}).collect::<Html>();
