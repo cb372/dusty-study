@@ -1,0 +1,8 @@
+[package]
+name = "dataset-generator"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+codegen = "0.2"
+itertools = "0.11"
