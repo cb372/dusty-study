@@ -2,11 +2,12 @@ use std::collections::HashMap;
 use itertools::Itertools;
 use once_cell::sync::Lazy;
 
+mod data;
+
+use data::example::build_map;
+
 static DB: Lazy<HashMap<&str, Vec<& 'static str>>> = Lazy::new(|| {
-    HashMap::from([
-        ("ACT", vec!["ACT", "CAT"]),
-        ("DSTUY", vec!["DUSTY", "STUDY"])
-    ])
+    build_map()
 });
 
 pub fn find(input: &str) -> Vec<& 'static str> {
