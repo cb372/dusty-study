@@ -16,8 +16,7 @@ async fn main() -> Result<(), Error> {
 pub(crate) async fn handler(req: Request) -> Result<impl IntoResponse, Error> {
     let input = req.query_string_parameters_ref()
         .and_then(|params| params.first("input"))
-        .unwrap_or_else(|| "")
-        .to_string();
+        .unwrap_or_else(|| "");
 
     let results = database::find(input);
     // TODO filter out input from results

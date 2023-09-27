@@ -2,14 +2,14 @@ use std::collections::HashMap;
 use itertools::Itertools;
 use once_cell::sync::Lazy;
 
-static DB: Lazy<HashMap<&str, Vec<String>>> = Lazy::new(|| {
+static DB: Lazy<HashMap<&str, Vec<& 'static str>>> = Lazy::new(|| {
     HashMap::from([
-        ("ACT", vec!["ACT".to_string(), "CAT".to_string()]),
-        ("DSTUY", vec!["DUSTY".to_string(), "STUDY".to_string()])
+        ("ACT", vec!["ACT", "CAT"]),
+        ("DSTUY", vec!["DUSTY", "STUDY"])
     ])
 });
 
-pub fn find(input: String) -> Vec<String> {
+pub fn find(input: &str) -> Vec<& 'static str> {
     let key = input
         .to_uppercase()
         .replace(" ", "")
