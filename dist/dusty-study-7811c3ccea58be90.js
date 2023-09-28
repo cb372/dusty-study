@@ -825,7 +825,7 @@ async function __wbg_init(input) {
     if (wasm !== undefined) return wasm;
 
     if (typeof input === 'undefined') {
-        input = new URL('gram-f5f4fd4075c99ab3_bg.wasm', import.meta.url);
+        input = new URL('dusty-study-7811c3ccea58be90_bg.wasm', import.meta.url);
     }
     const imports = __wbg_get_imports();
 

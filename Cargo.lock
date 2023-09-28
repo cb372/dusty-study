@@ -58,6 +58,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "dusty-study"
+version = "0.1.0"
+dependencies = [
+ "getrandom",
+ "gloo-console 0.3.0",
+ "gloo-net 0.4.0",
+ "rand",
+ "serde",
+ "wasm-bindgen",
+ "wasm-bindgen-futures",
+ "web-sys",
+ "yew",
+]
+
+[[package]]
 name = "fnv"
 version = "1.0.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -372,21 +387,6 @@ dependencies = [
  "wasm-bindgen",
  "wasm-bindgen-futures",
  "web-sys",
-]
-
-[[package]]
-name = "gram"
-version = "0.1.0"
-dependencies = [
- "getrandom",
- "gloo-console 0.3.0",
- "gloo-net 0.4.0",
- "rand",
- "serde",
- "wasm-bindgen",
- "wasm-bindgen-futures",
- "web-sys",
- "yew",
 ]
 
 [[package]]
