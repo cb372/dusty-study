@@ -1,11 +1,8 @@
 use std::collections::HashMap;
 
-// TODO codegen this file
+static JSON: &str = include_str!("anagrams.json");
 
 #[allow(dead_code)]
 pub fn build_map() -> HashMap<& 'static str, Vec<& 'static str>> {
-    HashMap::from([
-        ("ACT", vec!["ACT", "CAT"]),
-        ("DSTUY", vec!["DUSTY", "STUDY"])
-    ])
+    serde_json::from_str(JSON).unwrap()
 }

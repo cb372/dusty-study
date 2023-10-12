@@ -4,7 +4,7 @@ use once_cell::sync::Lazy;
 
 mod data;
 
-use data::example::build_map;
+use data::generated::build_map;
 
 static DB: Lazy<HashMap<&str, Vec<& 'static str>>> = Lazy::new(|| {
     build_map()
