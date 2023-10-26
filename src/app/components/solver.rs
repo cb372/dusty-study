@@ -1,4 +1,3 @@
-use gloo_console::log;
 use gloo_net::http::Request;
 use yew::prelude::*;
 
@@ -11,7 +10,6 @@ pub struct SolverProp {
 pub fn solver(prop: &SolverProp) -> Html {
     let results = use_state(|| vec![]);
     let url = format!("/.netlify/functions/hello?input={}", prop.input.clone());
-    log!("Solver URL", url.clone());
 
     {
         let input = prop.input.clone();

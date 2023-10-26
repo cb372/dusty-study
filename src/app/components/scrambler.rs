@@ -20,8 +20,8 @@ pub struct Scramble {
 impl Scramble {
 
     pub fn new(input: String) -> Scramble {
-        let vowels = HashSet::from(['A', 'E', 'I', 'O', 'U']); // TODO make this static
-        let mut shuffled = str_shuffled(input);
+        let vowels = HashSet::from(['A', 'E', 'I', 'O', 'U']);
+        let mut shuffled = str_shuffled(input.replace(" ", ""));
         let first_vowel_index = shuffled.iter().position(|x| vowels.contains(x));
         match first_vowel_index {
             Some(i) => {
