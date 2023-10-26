@@ -45,13 +45,13 @@ pub fn content(prop: &ContentProp) -> Html {
                 </ul>
             </div>
             {
-                match *active_tab_handle {
-                    ActiveTab::Scramble =>
-                        html!{<p><Scrambler input={prop.input.clone()}/></p>},
-                    ActiveTab::Solve =>
-                        html!{<p><Solver input={prop.input.clone()}/></p>}
+                if *active_tab_handle == ActiveTab::Scramble {
+                    html!{<p><Scrambler input={prop.input.clone()}/></p>}
+                } else {
+                    html!{<></>}
                 }
             }
+            <p><Solver input={prop.input.clone()} visible={*active_tab_handle == ActiveTab::Solve}/></p>
         </>
     }
 }

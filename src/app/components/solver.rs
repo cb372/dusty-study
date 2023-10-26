@@ -4,6 +4,7 @@ use yew::prelude::*;
 #[derive(Properties, PartialEq)]
 pub struct SolverProp {
     pub input: String,
+    pub visible: bool
 }
 
 #[function_component(Solver)]
@@ -31,10 +32,13 @@ pub fn solver(prop: &SolverProp) -> Html {
 
     let list_items = results.clone().iter().map(|result| html! {<li>{result}</li>}).collect::<Html>();
 
-    html! {
-        <div>
-            <p>{"Solve!"}</p>
-            <ul>{list_items}</ul>
-        </div>
+    if prop.visible {
+        html! {
+            <div>
+                <ul>{list_items}</ul>
+            </div>
+        }
+    } else {
+        html!{<></>}
     }
 }
