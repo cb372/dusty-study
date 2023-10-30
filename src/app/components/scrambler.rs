@@ -25,7 +25,7 @@ impl Scramble {
         let first_vowel_index = shuffled.iter().position(|x| vowels.contains(x));
         match first_vowel_index {
             Some(i) => {
-                let vowel = shuffled.splice(i..i, []).collect::<Vec<_>>().first().copied();
+                let vowel = shuffled.splice(i..i+1, []).collect::<Vec<_>>().first().copied();
                 Scramble {
                     circle: shuffled,
                     centre: vowel
@@ -54,10 +54,10 @@ pub fn scrambler(prop: &ScramblerProp) -> Html {
     let onclick = Callback::from(move |_| trigger.force_update());
 
     html! {
-        <div>
+        <div class="container">
             <p>{"Scramble!"}</p>
             <Circle scramble={scramble.clone()} />
-            <p><button onclick={onclick}>{"Re-scramble"}</button></p>
+            <p><button class="button" onclick={onclick}>{"Re-scramble"}</button></p>
         </div>
     }
 }
