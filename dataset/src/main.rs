@@ -54,6 +54,6 @@ fn main() -> Result<(), Error> {
     let hashmap = build_map(words);
     println!("{} anagram keys", hashmap.len());
 
-    let mut output = File::create("../netlify/functions/hello/src/database/data/anagrams.json")?;
+    let mut output = File::create("../netlify/functions/solve/src/database/data/anagrams.json")?;
     write!(output, "{:?}", hashmap)
 }
