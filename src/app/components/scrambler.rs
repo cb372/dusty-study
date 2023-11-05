@@ -1,5 +1,6 @@
 use rand::seq::SliceRandom;
 use rand::thread_rng;
+use std::cmp::max;
 use std::collections::HashSet;
 use yew::prelude::*;
 
@@ -54,10 +55,9 @@ pub fn scrambler(prop: &ScramblerProp) -> Html {
     let onclick = Callback::from(move |_| trigger.force_update());
 
     html! {
-        <div class="container">
-            <p>{"Scramble!"}</p>
+        <div class="level">
             <Circle scramble={scramble.clone()} />
-            <p><button class="button" onclick={onclick}>{"Re-scramble"}</button></p>
+            <p class="level-item"><button class="button" onclick={onclick}>{"Re-scramble"}</button></p>
         </div>
     }
 }
@@ -67,12 +67,48 @@ pub struct CircleProp {
     pub scramble: Scramble,
 }
 
+fn to_svg_text(x: char, i: usize, degrees_per_char: f32) -> Html {
+    let rotation = (i as f32 + 0.5) * degrees_per_char;
+    let transform = format!("rotate({} 0 0) translate(0 -75) rotate(-{} 0 0)", rotation, rotation);
+    html! {
+        <text
+            x="0"
+            y="0"
+            text-anchor="middle"
+            dominant-baseline="central"
+            font-size="30px"
+            fill="black"
+            transform={transform}
+        >{x}</text>
+    }
+}
+
 #[function_component(Circle)]
 pub fn circle(CircleProp { scramble }: &CircleProp) -> Html {
+    let count = max(1, scramble.circle.len()) as f32;
+    let degrees_per_char = 360.0 / count;
+    let circle_chars = scramble.circle
+        .iter()
+        .enumerate()
+        .map(|(i, x)| to_svg_text(*x, i, degrees_per_char))
+        .collect::<Vec<Html>>();
+
     html! {
-        <div>
-            <p>{scramble.circle.clone().into_iter().collect::<String>()}</p>
-            <p>{scramble.centre}</p>
-        </div>
+        <>
+            <p class="level-item">
+                <svg width="200" height="200" viewBox="-100 -100 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <text
+                        x="0"
+                        y="0"
+                        text-anchor="middle"
+                        dominant-baseline="central"
+                        font-size="30px"
+                        fill="black"
+                    >{scramble.centre}</text>
+                    <circle cx="0" cy="0" r="45%" stroke="#2F4F4F" stroke-width="1" fill="none" />
+                    {circle_chars}
+                </svg>
+            </p>
+        </>
     }
 }
