@@ -19,9 +19,13 @@ pub(crate) async fn handler(req: Request) -> Result<impl IntoResponse, Error> {
         .unwrap_or_else(|| "");
 
     let results = database::find(input);
-    // TODO filter out input from results
 
-    let resp = json!(results);
+    let filtered_results = results
+        .iter()
+        .filter(|x| x.to_uppercase() != input.to_uppercase())
+        .collect::<Vec<_>>();
+
+    let resp = json!(filtered_results);
 
     Ok(resp)
 }
