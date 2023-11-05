@@ -3,11 +3,20 @@ use web_sys::{EventTarget, HtmlInputElement};
 use yew::prelude::*;
 
 mod components;
+mod services;
 
 use components::content::Content;
+use services::solving;
 
 #[function_component]
 pub fn App() -> Html {
+    // on first render, warmup the backend lambda
+    use_effect_with_deps(move |_| {
+        wasm_bindgen_futures::spawn_local(async move {
+            let _ = solving::warmup().await;
+        });
+    }, ());
+
     let input_value_handle = use_state(|| "".to_string());
 
     let oninput = {
