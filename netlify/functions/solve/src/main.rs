@@ -1,6 +1,7 @@
 mod database;
 
-use lambda_http::{run, service_fn, Error, IntoResponse, Request, RequestExt};
+use http::header::CONTENT_TYPE;
+use lambda_http::{run, service_fn, Body, Error, IntoResponse, Request, RequestExt, Response};
 use log::LevelFilter;
 use serde_json::json;
 use simple_logger::SimpleLogger;
@@ -25,7 +26,19 @@ pub(crate) async fn handler(req: Request) -> Result<impl IntoResponse, Error> {
         .filter(|x| x.to_uppercase() != input.to_uppercase())
         .collect::<Vec<_>>();
 
-    let resp = json!(filtered_results);
+    let json_body = json!(filtered_results);
+
+    let string_body = serde_json::to_string(&json_body)
+        .expect("unable to serialize JSON body");
+
+    let body = Body::from(string_body);
+
+    let resp = Response::builder()
+        .header(CONTENT_TYPE, "application/json")
+        .header("Access-Control-Allow-Origin", "*")
+        .header("x-foo", "bar")
+        .body(body)
+        .expect("unable to build http::Response");
 
     Ok(resp)
 }
