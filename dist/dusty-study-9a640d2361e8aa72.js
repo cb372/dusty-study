@@ -820,7 +820,7 @@ async function __wbg_init(input) {
     if (wasm !== undefined) return wasm;
 
     if (typeof input === 'undefined') {
-        input = new URL('dusty-study-dfdc8e5ad38af6c2_bg.wasm', import.meta.url);
+        input = new URL('dusty-study-9a640d2361e8aa72_bg.wasm', import.meta.url);
     }
     const imports = __wbg_get_imports();
 

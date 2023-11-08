@@ -35,8 +35,6 @@ pub(crate) async fn handler(req: Request) -> Result<impl IntoResponse, Error> {
 
     let resp = Response::builder()
         .header(CONTENT_TYPE, "application/json")
-        .header("Access-Control-Allow-Origin", "*")
-        .header("x-foo", "bar")
         .body(body)
         .expect("unable to build http::Response");
 
