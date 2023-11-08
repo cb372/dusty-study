@@ -1,74 +1,68 @@
-# Yew Trunk Template
+# Dusty Study - an anagram solver
 
-This is a fairly minimal template for a Yew app that's built with [Trunk].
+## Initial setup
 
-## Usage
+To install everything you need and confirm that the app builds, run:
 
-For a more thorough explanation of Trunk and its features, please head over to the [repository][trunk].
-
-### Installation
-
-If you don't already have it installed, it's time to install Rust: <https://www.rust-lang.org/tools/install>.
-The rest of this guide assumes a typical Rust installation which contains both `rustup` and Cargo.
-
-To compile Rust to WASM, we need to have the `wasm32-unknown-unknown` target installed.
-If you don't already have it, install it with the following command:
-
-```bash
-rustup target add wasm32-unknown-unknown
+```
+./build.sh
 ```
 
-Now that we have our basics covered, it's time to install the star of the show: [Trunk].
-Simply run the following command to install it:
+This is the script that Netlify runs to build the app.
 
-```bash
-cargo install trunk wasm-bindgen-cli
+## Running the app locally
+
+To serve the app using Trunk, run:
+
+```
+./serve.sh
 ```
 
-That's it, we're done!
+Every time you make a change, Trunk will recompile and live-reload the page.
 
-### Running
+## Deploying to Netlify
 
-```bash
-trunk serve
-```
+Just push `main` to GitHub.
 
-Rebuilds the app whenever a change is detected and runs a local server to host it.
+## Repo overview
 
-There's also the `trunk watch` command which does the same thing but without hosting it.
+### Frontend
 
-### Release
+The frontend app is implemented with [Yew](https://yew.rs). The relevant files are:
 
-```bash
-trunk build --release
-```
+* `./Cargo.toml`
+* `./index.html`
+* `./src/`
 
-This builds the app in release mode similar to `cargo build --release`.
-You can also pass the `--release` flag to `trunk serve` if you need to get every last drop of performance.
+The Yew app is built using Trunk. The output files are written to the `dist/`
+directory.
 
-Unless overwritten, the output will be located in the `dist` directory.
+### Backend
 
-## Using this template
+The backend is a single Netlify function implemented in Rust.
 
-There are a few things you have to adjust when adopting this template.
+It accepts a query string as input, looks up a list of matching anagrams in its
+database, and returns them in its response.
 
-### Remove example code
+The relevant files are:
 
-The code in [src/main.rs](src/main.rs) specific to the example is limited to only the `view` method.
-There is, however, a fair bit of Sass in [index.scss](index.scss) you can remove.
+* `netlify/functions/solve/`
 
-### Update metadata
+### Dataset
 
-Update the `name`, `version`, `description` and `repository` fields in the [Cargo.toml](Cargo.toml) file.
-The [index.html](index.html) file also contains a `<title>` tag that needs updating.
+The `dataset/` directory contains a Bash script and a Rust script for building
+the database of anagrams.
 
-Finally, you should update this very `README` file to be about your app.
+The scripts take a
+[kaikki.org](https://kaikki.org/dictionary/English/index.html) dictionary file
+as input and transform them into an anagram dataset. The result is written as a
+JSON file inside the backend's `src` directory.
 
-### License
+To build the dataset:
 
-The template ships with both the Apache and MIT license.
-If you don't want to have your app dual licensed, just remove one (or both) of the files and update the `license` field in `Cargo.toml`.
+1. Run `./download-dictionary.sh` inside the `dataset` directory. This will
+   download the dictionary file. It is not stored in git because it is > 1 GB.
 
-There are two empty spaces in the MIT license you need to fill out: `` and `Chris Birchall <chris.birchall@gmail.com>`.
+2. Run `./extract-words.sh` to do some preprocessing.
 
-[trunk]: https://github.com/thedodd/trunk
+3. Run `cargo run --release` to generate the anagram dataset.
