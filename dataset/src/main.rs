@@ -3,6 +3,7 @@ use std::fs::read_to_string;
 use std::fs::File;
 use std::io::{Write, Error};
 use itertools::Itertools;
+use codegen::Scope;
 
 fn read_words(filename: &str) -> Vec<String> {
     read_to_string(filename)
@@ -41,6 +42,31 @@ fn build_map(words: Vec<String>) -> HashMap<String, Vec<String>> {
     hashmap
 }
 
+fn generate_code(hashmap: HashMap<String, Vec<String>>) -> Scope {
+    let mut scope = Scope::new();
+
+    scope.import("std::collections", "HashMap");
+
+    let function = scope
+        .new_fn("build_map")
+        .vis("pub")
+        .allow("dead_code")
+        .ret("HashMap<& 'static str, Vec<& 'static str>>");
+
+    function.line("HashMap::from([");
+    for (k, vs) in hashmap {
+        let values = vs
+            .into_iter()
+            .map(|x| format!("\"{}\"", x))
+            .collect::<Vec<String>>()
+            .join(", ");
+        function.line(format!("(\"{}\", vec![{}]),", k, values));
+    }
+    function.line("])");
+
+    scope
+}
+
 fn main() -> Result<(), Error> {
     let mut words = read_words("./words-uniq.txt");
     println!("{} lines read from input file", words.len());
@@ -54,6 +80,9 @@ fn main() -> Result<(), Error> {
     let hashmap = build_map(words);
     println!("{} anagram keys", hashmap.len());
 
-    let mut output = File::create("../netlify/functions/solve/src/database/data/anagrams.json")?;
-    write!(output, "{:?}", hashmap)
+    let scope = generate_code(hashmap);
+    println!("Generated code");
+
+    let mut output = File::create("../netlify/functions/solve/src/database/data/generated.rs")?;
+    write!(output, "{}", scope.to_string())
 }
