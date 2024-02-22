@@ -6,6 +6,7 @@ use crate::app::components::solver::Solver;
 #[derive(Properties, PartialEq)]
 pub struct ContentProp {
     pub input: String,
+    pub get_input: Callback<(), String>
 }
 
 #[derive(PartialEq)]
@@ -51,7 +52,10 @@ pub fn content(prop: &ContentProp) -> Html {
                     html!{<></>}
                 }
             }
-            <p><Solver input={prop.input.clone()} visible={*active_tab_handle == ActiveTab::Solve}/></p>
+            <p><Solver
+                    input={prop.input.clone()}
+                    get_input={prop.get_input.clone()}
+                    visible={*active_tab_handle == ActiveTab::Solve}/></p>
         </>
     }
 }
